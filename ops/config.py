@@ -8,7 +8,7 @@ model_names = sorted(name for name in models.__dict__
 
 parser = argparse.ArgumentParser(description='PyTorch ImageNet Training')
 
-parser.add_argument('-data', metavar='DIR', default= r'E:\Dataset_all\dataset_preprocess\Source_A_C_S_Target_Photo\data_classification',
+parser.add_argument('-data', metavar='DIR', default= r'E:\Dataset_all\apple_leaf',
                     help='path to dataset')
 
 parser.add_argument('-a', '--arch', metavar='ARCH', default='resnet18_with_table',
@@ -117,7 +117,8 @@ parser.add_argument ('--epochs_decay', type=list, default=[24, 30], help = 'weig
 
 parser.add_argument ('--classes_num', type=int, default=5, help = 'number of epoch for lambda to decay')
 
-parser.add_argument ('--dataset', type=str, default="PACS", help = '')
+# parser.add_argument ('--dataset', type=str, default="PACS", help = '')
+parser.add_argument ('--dataset', type=str, default="apple_leaf", help = '')
 parser.add_argument ('--sub_dataset', type=str, default="", help = '')
 parser.add_argument ('--gray_scale', type=float, default=0.1, help = 'weight lambda for second order moment loss')
 

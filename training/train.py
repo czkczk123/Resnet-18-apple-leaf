@@ -30,11 +30,11 @@ def train(train_loader, model, criterion, optimizer, epoch, args, tensor_writer=
     data_time = AverageMeter('Data', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')
     top1 = AverageMeter('Acc@1', ':6.2f')
-    top5 = AverageMeter('Acc@5', ':6.2f')
+    top2 = AverageMeter('Acc@2', ':6.2f')
 
     progress = ProgressMeter(
         len(train_loader),
-        [batch_time, data_time, losses, top1, top5],
+        [batch_time, data_time, losses, top1, top2],
         prefix="Epoch: [{}]".format(epoch))
 
     model.train()
@@ -61,10 +61,11 @@ def train(train_loader, model, criterion, optimizer, epoch, args, tensor_writer=
         model.pre_weight1.data.copy_(pre_weight1)
 
         loss = criterion(output, target).view(1, -1).mm(weight1).view(1)
-        acc1, acc5 = accuracy(output, target, topk=(1, 5))
+        # acc1, acc5 = accuracy(output, target, topk=(1, 5))
+        acc1, acc2 = accuracy(output, target, topk=(1, 2))
         losses.update(loss.item(), images.size(0))
         top1.update(acc1[0], images.size(0))
-        top5.update(acc5[0], images.size(0))
+        top2.update(acc2[0], images.size(0))
 
         optimizer.zero_grad()
         loss.backward()
@@ -80,4 +81,4 @@ def train(train_loader, model, criterion, optimizer, epoch, args, tensor_writer=
 
     tensor_writer.add_scalar('loss/train', losses.avg, epoch)
     tensor_writer.add_scalar('ACC@1/train', top1.avg, epoch)
-    tensor_writer.add_scalar('ACC@5/train', top5.avg, epoch)
+    tensor_writer.add_scalar('ACC@2/train', top2.avg, epoch)

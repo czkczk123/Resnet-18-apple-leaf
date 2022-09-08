@@ -88,7 +88,6 @@ def lossb_expect(cfeaturec, weight, num_f, sum=True):
         cfeaturec = cfeaturecs[:, :, i] # (256,512)
         cov1 = cov(cfeaturec, weight) # 作用为计算互协方差
         cov_matrix = cov1 * cov1 # 平方
-        print(cov_matrix.shape)
         # 不算自己和自己
         loss += torch.sum(cov_matrix) - torch.trace(cov_matrix)
 

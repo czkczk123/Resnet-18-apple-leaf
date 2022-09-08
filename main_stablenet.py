@@ -35,6 +35,8 @@ def main():
         args.sum = False
     if args.dataset == "PACS":
         args.classes_num = 7
+    elif args.dataset == "apple_leaf":
+        args.classes_num = 4
     elif args.dataset == "VLCS":
         args.classes_num = 5
     else:
