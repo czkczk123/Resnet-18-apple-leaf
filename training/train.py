@@ -14,7 +14,7 @@ from torch.autograd import Variable
 from utilis.matrix import accuracy
 from utilis.meters import AverageMeter, ProgressMeter
 
-from training.reweighting import weight_learner
+
 
 
 def train(train_loader, model, criterion, optimizer, epoch, args, tensor_writer=None):
@@ -48,17 +48,10 @@ def train(train_loader, model, criterion, optimizer, epoch, args, tensor_writer=
         target = target.cuda(args.gpu, non_blocking=True)
 
         output, cfeatures = model(images)
-        pre_features = model.pre_features
-        pre_weight1 = model.pre_weight1
 
-        if epoch >= args.epochp:
-            weight1, pre_features, pre_weight1 = weight_learner(cfeatures, pre_features, pre_weight1, args, epoch, i)
 
-        else:
-            weight1 = Variable(torch.ones(cfeatures.size()[0], 1).cuda())
+        weight1 = Variable(torch.ones(cfeatures.size()[0], 1).cuda())
 
-        model.pre_features.data.copy_(pre_features)
-        model.pre_weight1.data.copy_(pre_weight1)
 
         loss = criterion(output, target).view(1, -1).mm(weight1).view(1)
         # acc1, acc5 = accuracy(output, target, topk=(1, 5))
