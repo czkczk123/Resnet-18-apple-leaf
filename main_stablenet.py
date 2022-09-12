@@ -36,7 +36,7 @@ def main():
     if args.dataset == "PACS":
         args.classes_num = 7
     elif args.dataset == "apple_leaf":
-        args.classes_num = 4
+        args.classes_num = 5
     elif args.dataset == "VLCS":
         args.classes_num = 5
     else:
@@ -122,8 +122,8 @@ def main_worker(ngpus_per_node, args):
 
     # define loss function (criterion) and optimizer
     criterion = nn.CrossEntropyLoss().cuda(args.gpu)
-    criterion_train = nn.CrossEntropyLoss(reduce=False).cuda(args.gpu)
-
+    # criterion_train = nn.CrossEntropyLoss(reduce=False).cuda(args.gpu)
+    criterion_train = nn.CrossEntropyLoss().cuda(args.gpu)
     optimizer = torch.optim.SGD(model.parameters(), args.lr,
                                 momentum=args.momentum,
                                 weight_decay=args.weight_decay)
